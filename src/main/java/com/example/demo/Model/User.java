@@ -29,8 +29,15 @@ public class User {
     @Column(name = "last_name", nullable = false)
     private String lastName;
 
+    @Column(name = "emailVerified", nullable = false)
+    private boolean emailVerified = false;
+
 //    @OneToMany(mappedBy = "user")
 //    private List<Product> products;
+
+    @OneToMany(mappedBy = "user" , cascade = CascadeType.ALL, orphanRemoval = true)
+    @OrderBy("id desc")
+    private List<VerificationToken> verificationTokens = new ArrayList<>();
 
     @JsonIgnore
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
@@ -97,5 +104,37 @@ public class User {
 
     public void setLastName(String lastName) {
         this.lastName = lastName;
+    }
+
+    public boolean isEmailVerified() {
+        return emailVerified;
+    }
+
+    public void setEmailVerified(boolean emailVerified) {
+        this.emailVerified = emailVerified;
+    }
+
+    public List<VerificationToken> getVerificationTokens() {
+        return verificationTokens;
+    }
+
+    public void setVerificationTokens(List<VerificationToken> verificationTokens) {
+        this.verificationTokens = verificationTokens;
+    }
+
+    public Cart getCart() {
+        return cart;
+    }
+
+    public void setCart(Cart cart) {
+        this.cart = cart;
+    }
+
+    public List<CustomersOrder> getOrders() {
+        return orders;
+    }
+
+    public void setOrders(List<CustomersOrder> orders) {
+        this.orders = orders;
     }
 }

@@ -1,4 +1,4 @@
-package com.example.demo.api.controllers;
+package com.example.demo.api.controllers.Authentication;
 
 import com.example.demo.Exception.EmailFailureException;
 import com.example.demo.Exception.UserAlreadyExistException;
@@ -13,8 +13,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.Optional;
 
 @RestController
 @RequestMapping("/auth")

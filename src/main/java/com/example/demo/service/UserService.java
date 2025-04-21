@@ -49,10 +49,17 @@ public class UserService {
         user1.setEmail(registrationbody.getEmail());
         user1.setFirstName(registrationbody.getFirstName());
         user1.setLastName(registrationbody.getLastName());
+        user1.setRole("USER");
+
+        // saving user before send email verification
+        userRepository.save(user1);
+
         VerificationToken verificationToken = createVerificationToken(user1);
-        emailService.sendVerificationEmail(verificationToken);
         verificationTokenRepository.save(verificationToken);
-        return userRepository.save(user1);
+
+        emailService.sendVerificationEmail(verificationToken);
+
+        return user1 ;
     }
 
     public String loginUser(LoginBody loginbody) throws UserNotVerifiedException, EmailFailureException {
@@ -102,5 +109,12 @@ public class UserService {
 
         }
         return false ;
+    }
+
+    public boolean userHasPermisson(User user , long userId) {
+        if (user == null) {
+            return false;
+        }
+        return user.getId() == userId;
     }
 }

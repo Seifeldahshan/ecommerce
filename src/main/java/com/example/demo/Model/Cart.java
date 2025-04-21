@@ -8,20 +8,23 @@ import java.util.List;
 @Entity
 @Table(name = "cart")
 public class Cart {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
-    @ManyToMany
-    @JoinTable(
-            name = "cart_product",
-            joinColumns = @JoinColumn(name = "cart_id"),
-            inverseJoinColumns = @JoinColumn(name = "product_id")
-    )
-    private List<Product> products = new ArrayList<>();
 
-    public Cart(Long id, List<Product> products) {
+        @Id
+        @GeneratedValue
+        private Long id;
+
+        @OneToOne
+        private User user;
+
+        @OneToMany(mappedBy = "cart", cascade = CascadeType.REMOVE, orphanRemoval = true)
+        private List<CartItem> items = new ArrayList<>();
+
+        public Cart() {}
+
+    public Cart(Long id, User user, List<CartItem> items) {
         this.id = id;
-        this.products = products;
+        this.user = user;
+        this.items = items;
     }
 
     public Long getId() {
@@ -32,19 +35,22 @@ public class Cart {
         this.id = id;
     }
 
-    public List<Product> getProducts() {
-        return products;
+    public List<CartItem> getItems() {
+        return items;
     }
 
-    public void setProducts(List<Product> products) {
-        this.products = products;
+    public void setItems(List<CartItem> items) {
+        this.items = items;
     }
 
+    public User getUser() {
+        return user;
+    }
 
-
-
-
-    public Cart() {}
-
-
+    public void setUser(User user) {
+        this.user = user;
+    }
 }
+
+
+

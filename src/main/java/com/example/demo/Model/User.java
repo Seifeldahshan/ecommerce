@@ -2,7 +2,6 @@ package com.example.demo.Model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
-import jakarta.persistence.criteria.Order;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -32,9 +31,13 @@ public class User {
     @Column(name = "emailVerified", nullable = false)
     private boolean emailVerified = false;
 
+    @Column(name = "role", nullable = false)
+    private String role;
+
 //    @OneToMany(mappedBy = "user")
 //    private List<Product> products;
 
+    @JsonIgnore
     @OneToMany(mappedBy = "user" , cascade = CascadeType.ALL, orphanRemoval = true)
     @OrderBy("id desc")
     private List<VerificationToken> verificationTokens = new ArrayList<>();
@@ -53,6 +56,7 @@ public class User {
     @JoinColumn(name = "cart_id")
     private Cart cart;
 
+    @JsonIgnore
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
     private List<CustomersOrder> orders = new ArrayList<>();
     public User() {}
@@ -120,6 +124,14 @@ public class User {
 
     public void setVerificationTokens(List<VerificationToken> verificationTokens) {
         this.verificationTokens = verificationTokens;
+    }
+
+    public String getRole() {
+        return role;
+    }
+
+    public void setRole(String role) {
+        this.role = role;
     }
 
     public Cart getCart() {

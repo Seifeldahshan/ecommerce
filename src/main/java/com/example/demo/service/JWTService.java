@@ -2,6 +2,7 @@ package com.example.demo.service;
 
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.algorithms.Algorithm;
+import com.auth0.jwt.interfaces.DecodedJWT;
 import com.example.demo.Model.User;
 import jakarta.annotation.PostConstruct;
 import org.springframework.beans.factory.annotation.Value;
@@ -34,11 +35,12 @@ public class JWTService {
     public String generateToken(User user) {
         return JWT.create()
                 .withClaim(USERNAME_KEY, user.getUsername())
+                .withClaim("role", user.getRole())
                 .withExpiresAt(new Date(System.currentTimeMillis() + (1000L * expiryInSeconds)))
                 .withIssuer(issuer)
                 .sign(algorithm);
     }
-    public String generateEnailToken(User user) {
+    public String generateEmailToken(User user) {
         return JWT.create()
                 .withClaim(EMAIL_KEY, user.getEmail())
                 .withExpiresAt(new Date(System.currentTimeMillis() + (1000L * expiryInSeconds)))
@@ -48,4 +50,9 @@ public class JWTService {
     public String getUsername(String token) {
        return JWT.decode(token).getClaim(USERNAME_KEY).asString();
     }
+    public String getRole(String token) {
+        DecodedJWT jwt = JWT.decode(token);
+        return jwt.getClaim("role").asString();
+    }
+
 }

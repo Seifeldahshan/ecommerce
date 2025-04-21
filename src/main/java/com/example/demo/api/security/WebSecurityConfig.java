@@ -21,7 +21,9 @@ public class WebSecurityConfig {
         http.csrf(csrf -> csrf.disable())
                 .cors(cors -> cors.disable())
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers("/Products" , "/auth/register","/auth/login" , "/auth/verify").permitAll()
+                        .requestMatchers("/Products" , "/auth/register","/auth/login" , "/auth/verify",
+                                "/auth/me","/user/**", "/cart/cart-items/**").permitAll()
+                        .requestMatchers("/admin/**").hasAuthority("ADMIN")
                         .anyRequest().authenticated()
                 );
         http.addFilterBefore(jwtRequestFilter , AuthenticationFilter.class);

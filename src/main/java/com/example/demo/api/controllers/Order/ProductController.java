@@ -12,12 +12,17 @@ import java.util.List;
 public class ProductController {
 
     private ProductRepository productRepository;
+
     public ProductController(ProductRepository productRepository) {
         this.productRepository = productRepository;
     }
+
     @GetMapping
     public ResponseEntity<List<Product>> getAllProduct() {
      List<Product> products = productRepository.findAll();
        return ResponseEntity.ok(products);
     }
+
+
+
 }

@@ -10,6 +10,12 @@ public class OrderItem {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @ManyToOne
+    @JoinColumn(name = "product_id")
+    private Product product;
+
+    private int quantity;
+    private double priceAtPurchase;
 
     public Long getId() {
         return id;
@@ -66,12 +72,7 @@ public class OrderItem {
         this.priceAtPurchase = priceAtPurchase;
     }
 
-    @ManyToOne
-    @JoinColumn(name = "product_id")
-    private Product product;
 
-    private int quantity;
-    private double priceAtPurchase;
 
     // getters and setters
 }
